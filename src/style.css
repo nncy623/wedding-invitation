@@ -1,0 +1,248 @@
+@font-face {
+  font-family: Invitation Song;
+  src: url('/reference/song.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  font-family: "Invitation Song", "Songti SC", "Noto Serif CJK SC", SimSun, serif;
+  color: #272219;
+  background: #e0dacb;
+  font-synthesis: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+* { box-sizing: border-box; }
+
+body, h1, h2, h3, p, figure { margin: 0; }
+
+body { min-width: 0; }
+
+.invitation {
+  position: relative;
+  container-type: inline-size;
+  width: min(100%, 540px);
+  margin-inline: auto;
+  background: #e8e3d1 var(--paper) repeat-y top center / 100% auto;
+}
+
+.spread {
+  --unit: calc(100cqw / 720);
+  position: relative;
+  height: calc(var(--span) * var(--unit));
+}
+
+.layout-box {
+  position: absolute;
+  top: calc((var(--y) - var(--start)) * var(--unit));
+  left: calc(var(--x) * var(--unit));
+  width: calc(var(--w) * var(--unit));
+  height: calc(var(--h) * var(--unit));
+}
+
+.reference-art img,
+.photo-frame img,
+.film img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.photo-frame,
+.film {
+  overflow: hidden;
+}
+
+.photo-frame img,
+.film img {
+  object-fit: cover;
+}
+
+.photo-frame.monochrome img {
+  filter: grayscale(1);
+}
+
+.couple-names,
+.portrait-name,
+.wedding-date,
+.venue,
+.event-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.35;
+}
+
+.couple-names {
+  gap: 2.4cqw;
+  font-size: 4.6cqw;
+  letter-spacing: .4cqw;
+}
+
+.ampersand {
+  font-family: "Times New Roman", serif;
+  font-size: 4.45cqw;
+  letter-spacing: 0;
+}
+
+.portrait-name {
+  font-size: 4cqw;
+  letter-spacing: .33cqw;
+}
+
+.round-photo { border-radius: 50%; }
+
+.black-mat { background: #100f0d; }
+
+.collage-script { pointer-events: none; }
+
+.film-track {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+
+.film-track::-webkit-scrollbar { display: none; }
+
+.film-photo {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.film-track:focus-visible {
+  outline: 2px solid #6f3927;
+  outline-offset: -2px;
+}
+
+.wedding-date,
+.venue {
+  flex-direction: column;
+  gap: .7cqw;
+  font-size: 3.65cqw;
+  text-align: center;
+  font-style: normal;
+}
+
+.wedding-date span:first-child {
+  font: 3.85cqw "Times New Roman", serif;
+}
+
+.event-time {
+  font-size: 2.8cqw;
+  align-items: flex-start;
+}
+
+.event-time[data-side="end"] { justify-content: flex-end; }
+.event-time[data-side="start"] { justify-content: flex-start; }
+
+.map-card {
+  display: flex;
+  flex-direction: column;
+  gap: .7cqw;
+  padding: 2.7cqw 2.15cqw 2cqw;
+  border-radius: 2.5cqw;
+  color: #181818;
+  background: #f6f6f6;
+  text-align: center;
+  text-decoration: none;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 3.35cqw;
+}
+
+.map-card strong {
+  font-size: 4cqw;
+  font-weight: 500;
+}
+
+.map-card span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #747474;
+}
+
+.map-preview {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  margin-top: .7cqw;
+  border-radius: .9cqw;
+  object-fit: cover;
+}
+
+.map-card small {
+  position: absolute;
+  right: 2.5cqw;
+  bottom: 2.2cqw;
+  padding: .1em .24em;
+  color: #303030;
+  background: #fffe;
+  font-size: max(7px, 1.5cqw);
+}
+
+.map-card:focus-visible,
+.music:focus-visible {
+  outline: 2px solid #6f3927;
+  outline-offset: 3px;
+}
+
+.music-dock {
+  position: fixed;
+  z-index: 5;
+  top: max(6px, env(safe-area-inset-top));
+  right: max(7px, calc((100vw - 540px) / 2 + 10px));
+}
+
+.music {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 3px 9px 4px 10px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.music img {
+  display: block;
+  width: 100%;
+  filter: drop-shadow(1px 2px 2px #5e5037b5);
+}
+
+.music[aria-pressed="true"] img {
+  animation: music-sway 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes music-sway {
+  from { transform: rotate(-12deg); }
+  to { transform: rotate(12deg); }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  white-space: pre-line;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .music[aria-pressed="true"] img { animation: none; }
+}
