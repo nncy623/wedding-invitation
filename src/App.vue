@@ -9,6 +9,8 @@ import { assetUrl, copy, wedding } from './data.js'
 const date = new Date(wedding.date + 'T00:00:00+08:00')
 const weekday = new Intl.DateTimeFormat('zh-CN', { weekday: 'long', timeZone: 'Asia/Shanghai' }).format(date)
 const displayDate = wedding.date.split('-').map(Number).join('/')
+const endingDate = wedding.date.split('-').join('.')
+const dressSwatches = ['#fbf7f0', '#e5cbae', '#a87b52', '#2b2620']
 const mapUrl = 'https://uri.amap.com/search?' + new URLSearchParams({
   keyword: wedding.mapKeyword,
   city: wedding.city,
@@ -16,9 +18,9 @@ const mapUrl = 'https://uri.amap.com/search?' + new URLSearchParams({
   src: 'wedding-invitation-h5',
 })
 const schedule = [
-  { label: '签到合影', time: wedding.signInTime, box: [158, 10715, 136, 35], side: 'end' },
-  { label: '婚礼仪式', time: wedding.ceremonyTime, box: [442, 10877, 126, 35], side: 'start' },
-  { label: '晚宴开始', time: wedding.banquetTime, box: [166, 11078, 138, 35], side: 'end' },
+  { label: '签到合影', time: wedding.signInTime, box: [158, 10706, 136, 35], side: 'end' },
+  { label: '婚礼仪式', time: wedding.ceremonyTime, box: [442, 10872, 126, 35], side: 'start' },
+  { label: '晚宴开始', time: wedding.banquetTime, box: [166, 11069, 138, 35], side: 'end' },
 ]
 const player = ref(null)
 const playing = ref(false)
@@ -183,13 +185,21 @@ onBeforeUnmount(() => {
       <PhotoFrame name="final" :box="[35,12884,649,972]" alt="窗边的中式婚纱照" position="50% 40%" monochrome />
     </section>
 
-    <footer class="spread" style="--start:13869; --span:1260" aria-labelledby="tips">
+    <footer class="spread" style="--start:13869; --span:1578" aria-label="温馨提示与着装建议">
       <ReferenceArt name="upper-flower" :box="[291,13937,162,181]" />
-      <ReferenceArt as="h2" id="tips" name="tips" :box="[43,14179,215,116]" text="Tips" />
-      <ReferenceArt as="p" name="tips-copy" :box="[43,14331,548,153]" :text="copy.tips" />
-      <ReferenceArt as="p" name="tips-copy-2" :box="[43,14489,557,215]" :text="copy.tips2" />
-      <ReferenceArt name="lower-flower" :box="[295,14777,139,192]" />
-      <ReferenceArt as="p" name="ending" :box="[196,15028,333,68]" :text="copy.ending" />
+      <ReferenceArt as="p" name="tips-copy" :box="[43,14160,548,153]" :text="copy.tips" />
+      <ReferenceArt as="p" name="tips-copy-2" :box="[43,14318,557,215]" :text="copy.tips2" />
+      <ReferenceArt name="dress-code" :box="[250,14587,220,43]" />
+      <LayoutBox as="p" class="dress-line" :box="[0,14659,720,38]">推荐着装</LayoutBox>
+      <LayoutBox as="p" class="dress-line dress-line--note" :box="[0,14711,720,38]">纯色 / 浅色系 会与婚礼布置更搭哦</LayoutBox>
+      <LayoutBox as="ul" class="dress-swatches" :box="[0,14773,720,80]" aria-label="推荐色系">
+        <li v-for="tone in dressSwatches" :key="tone" :style="{ background: tone }" />
+      </LayoutBox>
+      <ReferenceArt name="lower-flower" :box="[290,14891,140,190]" />
+      <LayoutBox as="p" class="ending-date" :box="[0,15107,720,46]">{{ endingDate }}</LayoutBox>
+      <LayoutBox as="p" class="ending-meet" :box="[0,15173,720,60]">我们，婚礼见</LayoutBox>
+      <LayoutBox as="span" class="ending-rule" :box="[110,15287,500,2]" aria-hidden="true" />
+      <LayoutBox as="p" class="ending-thanks" :box="[0,15357,720,50]">THANKS.</LayoutBox>
     </footer>
   </main>
 </template>

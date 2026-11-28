@@ -7,7 +7,7 @@ export const wedding = {
   address: '浙江省绍兴市越城区横湖路100号',
   city: '绍兴',
   mapKeyword: '绍兴苏宁希尔顿酒店及公寓',
-  signInTime: '',
+  signInTime: '17:08',
   ceremonyTime: '18:08',
   banquetTime: '18:38',
   music: 'audio.m4a',
