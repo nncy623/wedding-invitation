@@ -8,8 +8,8 @@ export const wedding = {
   city: '绍兴',
   mapKeyword: '绍兴苏宁希尔顿酒店及公寓',
   signInTime: '',
-  ceremonyTime: '',
-  banquetTime: '',
+  ceremonyTime: '18:08',
+  banquetTime: '18:38',
   music: 'audio.m4a',
 }
 

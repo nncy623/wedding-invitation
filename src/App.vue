@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import LayoutBox from './LayoutBox.vue'
 import PhotoFrame from './PhotoFrame.vue'
 import PhotoFilm from './PhotoFilm.vue'
@@ -22,18 +22,88 @@ const schedule = [
 ]
 const player = ref(null)
 const playing = ref(false)
+const UNLOCK_EVENTS = ['pointerdown', 'touchstart', 'touchend', 'keydown', 'wheel', 'scroll']
+let fadeTimer = null
+
+// 浏览器普遍禁止“有声自动播放”，先直接尝试；被拦下就等第一次触摸或滑动再播，
+// 这样用户不用主动去点右上角音符。
+function attemptPlay() {
+  const el = player.value
+  if (!el || !el.paused) return
+  el.play().catch(() => {})
+}
+
+// 微信内置浏览器允许通过 WeixinJSBridge 直接出声，宾客多在微信里打开，
+// 这里单独兜住，做到真正“点开即响”。
+function wechatAutoplay() {
+  attemptPlay()
+  // 部分安卓微信要等网络类型回调后才允许出声，补一枪。
+  try {
+    window.WeixinJSBridge?.invoke('getNetworkType', {}, () => attemptPlay())
+  } catch {
+    /* 非微信环境忽略 */
+  }
+}
+
+function bindUnlock() {
+  UNLOCK_EVENTS.forEach((type) =>
+    window.addEventListener(type, attemptPlay, { passive: true, capture: true }),
+  )
+}
+
+function unbindUnlock() {
+  UNLOCK_EVENTS.forEach((type) =>
+    window.removeEventListener(type, attemptPlay, { capture: true }),
+  )
+}
+
+function fadeIn() {
+  const el = player.value
+  if (!el) return
+  clearInterval(fadeTimer)
+  el.volume = 0
+  fadeTimer = setInterval(() => {
+    el.volume = Math.min(0.6, el.volume + 0.05)
+    if (el.volume >= 0.6) clearInterval(fadeTimer)
+  }, 120)
+}
+
+function onPlay() {
+  playing.value = true
+  unbindUnlock()
+  fadeIn()
+}
+
+function onPause() {
+  playing.value = false
+  clearInterval(fadeTimer)
+}
 
 async function toggleMusic() {
-  if (!player.value.paused) {
-    player.value.pause()
+  const el = player.value
+  if (!el) return
+  if (!el.paused) {
+    el.pause()
     return
   }
   try {
-    await player.value.play()
+    await el.play()
   } catch {
     playing.value = false
   }
 }
+
+onMounted(() => {
+  attemptPlay()
+  bindUnlock()
+  document.addEventListener('WeixinJSBridgeReady', wechatAutoplay, false)
+})
+
+onBeforeUnmount(() => {
+  unbindUnlock()
+  document.removeEventListener('WeixinJSBridgeReady', wechatAutoplay, false)
+  clearInterval(fadeTimer)
+})
 </script>
 
 <template>
@@ -42,7 +112,7 @@ async function toggleMusic() {
       <button type="button" class="music" :aria-label="playing ? '暂停背景音乐' : '播放背景音乐'" :aria-pressed="playing" @click="toggleMusic">
         <img :src="assetUrl('music-note.webp')" alt="" />
       </button>
-      <audio ref="player" :src="assetUrl(wedding.music)" preload="none" loop @play="playing = true" @pause="playing = false"></audio>
+      <audio ref="player" :src="assetUrl(wedding.music)" preload="auto" loop @play="onPlay" @pause="onPause"></audio>
     </div>
 
     <header class="spread" style="--start:0; --span:2026" aria-label="婚礼请柬">
