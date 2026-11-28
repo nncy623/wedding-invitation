@@ -140,9 +140,9 @@ onBeforeUnmount(() => {
       <ReferenceArt name="yes" :box="[25,3382,212,195]" text="Yes," class="collage-script" />
       <ReferenceArt name="yes-arc" :box="[391,3342,95,33]" class="collage-script" />
       <ReferenceArt as="p" name="ordinary" :box="[303,4080,377,203]" :text="copy.ordinary" />
-      <PhotoFilm :box="[35,4377,649,965]" :names="['garden-one','garden-two','garden-three','garden-four']" alt="中式园林婚纱照" />
+      <PhotoFilm :box="[35,4377,649,965]" :names="['garden-one','garden-two','garden-three','garden-four','garden-five','garden-six']" alt="中式园林婚纱照" />
       <ReferenceArt as="p" name="encounter" :box="[20,5390,560,220]" :text="copy.encounter" />
-      <PhotoFilm :box="[35,5659,577,863]" :names="['studio-one','french-door','french-window','studio-two']" alt="法式婚纱照" />
+      <PhotoFilm :box="[35,5659,577,863]" :names="['studio-one','french-door','french-window','studio-two','studio-five','studio-six']" alt="法式婚纱照" />
       <ReferenceArt name="all-mine" :box="[271,6474,437,108]" class="collage-script" />
       <PhotoFrame name="french-bride" :box="[183,6625,244,305]" alt="吴倩金的法式单人婚纱照" position="50% 30%" />
       <PhotoFrame name="french-groom" :box="[442,6625,243,305]" alt="袁野的法式单人婚纱照" position="50% 65%" />
@@ -151,8 +151,8 @@ onBeforeUnmount(() => {
       <ReferenceArt name="collage-line" :box="[442,8477,278,364]" />
       <PhotoFrame name="warm-one" :box="[36,8400,421,622]" alt="并肩步入镜头的我们" />
       <PhotoFrame name="warm-two" :box="[420,8710,264,395]" alt="米色礼服婚纱合影" />
-      <PhotoFilm :box="[39,9187,645,966]" :names="['warm-slide-one','warm-slide-two','warm-slide-three','warm-slide-four']" alt="米色婚纱照" />
-      <ReferenceArt name="happy-wedding" :box="[26,10158,214,46]" text="Happy Wedding" />
+      <PhotoFilm :box="[39,9187,645,966]" :names="['warm-slide-one','warm-slide-two','warm-slide-three','warm-slide-four','warm-slide-five','warm-slide-six']" alt="米色婚纱照" />
+      <ReferenceArt name="happy-wedding" :box="[26,10196,214,46]" text="Happy Wedding" />
     </section>
 
     <section class="spread" style="--start:10306; --span:1935" aria-labelledby="about-wedding">

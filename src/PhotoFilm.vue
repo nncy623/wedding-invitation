@@ -7,9 +7,13 @@ const props = defineProps({
   box: { type: Array, required: true },
   names: { type: Array, required: true },
   alt: { type: String, required: true },
+  hint: { type: String, default: '左右滑动查看更多' },
 })
 
+const AUTOPLAY_DELAY = 2600
+
 const track = ref(null)
+const hinted = ref(true)
 const loops = computed(() => props.names.length > 1)
 const slides = computed(() => loops.value
   ? [props.names.at(-1), ...props.names, props.names[0]]
@@ -45,7 +49,7 @@ function queueAutoplay() {
 
   autoplay = setTimeout(() => {
     if (!reducedMotion.matches) move(1)
-  }, 4200)
+  }, AUTOPLAY_DELAY)
 }
 
 function settle() {
@@ -66,6 +70,7 @@ function onScroll() {
 
 function pause() {
   pressing = true
+  hinted.value = false
   clearTimeout(autoplay)
 }
 
@@ -77,6 +82,7 @@ function resume() {
 function onKey(event) {
   if (!loops.value || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return
   event.preventDefault()
+  hinted.value = false
   move(event.key === 'ArrowLeft' ? -1 : 1)
 }
 
@@ -137,5 +143,8 @@ onBeforeUnmount(() => {
         />
       </div>
     </figure>
+    <p v-if="loops && hint" class="film-hint" :class="{ 'is-hidden': !hinted }" aria-hidden="true">
+      {{ hint }}
+    </p>
   </LayoutBox>
 </template>
